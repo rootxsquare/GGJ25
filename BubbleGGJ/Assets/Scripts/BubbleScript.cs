@@ -16,12 +16,12 @@ public class BubbleScript : MonoBehaviour
         if(isSimulating) t -= Time.deltaTime / bubbleLife;
 
 
-        if (Input.GetKey(KeyCode.B) && !isSimulating)
+        if (Input.GetMouseButton(1) && !isSimulating)
         {
             transform.localScale += Vector3.one * Time.deltaTime * growSpeed;
             if (transform.localScale.x > maxSize) bubblePop();
         }
-        else if (Input.GetKeyUp(KeyCode.B))
+        else if (Input.GetMouseButtonUp(1))
         {
             if (transform.localScale.x < 0.25f) bubblePop();
             bubbleLife = transform.localScale.x * 10;
