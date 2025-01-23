@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
    public float turnSmoothTime = 0.1f;
 
    public float turnSmoothVelocity;
+   private Vector3 lastGroundedPosition;
+   public float yLimit = -25;
    
 
  [Header("Jumping")]
@@ -22,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Bubble")]
     public GameObject bubblePrefab;
-    GameObject currentBubble;
+     GameObject currentBubble;
     public Transform bubbleSpawnParent;
     
     [Header("Animations")]
@@ -68,6 +70,7 @@ float horizontal = Input.GetAxisRaw("Horizontal");
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
+            lastGroundedPosition = transform.position;
         }
 
 
@@ -95,5 +98,10 @@ float horizontal = Input.GetAxisRaw("Horizontal");
             
         }
         #endregion
+
+        if(transform.position.y < yLimit )
+        {
+            transform.position = lastGroundedPosition;
+        }
     }
 }

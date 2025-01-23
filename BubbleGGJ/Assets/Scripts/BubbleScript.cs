@@ -39,6 +39,7 @@ public class BubbleScript : MonoBehaviour
 
     void bubblePop()
     {
+        
         GameObject popParticle = Instantiate(bubblePopParticle, transform.GetChild(1).position, Quaternion.identity);
         popParticle.transform.localScale = transform.localScale;
         Destroy(popParticle, 2);
