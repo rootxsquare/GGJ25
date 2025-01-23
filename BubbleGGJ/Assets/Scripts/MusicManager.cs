@@ -8,6 +8,6 @@ public AudioClip[] footstepSounds;
 
    public void footStepSound()
    {
-        
+        GetComponent<AudioSource>().PlayOneShot(footstepSounds[Random.Range(0,footstepSounds.Length)]);
    }
 }
