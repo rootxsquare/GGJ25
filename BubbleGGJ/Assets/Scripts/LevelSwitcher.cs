@@ -26,9 +26,31 @@ IEnumerator switchScene()
     FindAnyObjectByType<PlayerController>().enabled = false;
     circleTransition.GetComponent<Animator>().enabled = true;
     yield return new WaitForSeconds(2);
+       Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     SceneManager.LoadScene(sceneToLoad);
 
 
+}
+
+IEnumerator endScene()
+{
+    FindAnyObjectByType<PlayerController>().enabled = false;
+    circleTransition.GetComponent<Animator>().enabled = true;
+    yield return new WaitForSeconds(2);
+    SceneManager.LoadScene(0);
+
+
+}
+
+public void startGame()
+{
+StartCoroutine(switchScene());
+}
+
+public void triggerGameEnd()
+{
+    StartCoroutine(endScene());
 }
     
    void OnTriggerEnter(Collider other)

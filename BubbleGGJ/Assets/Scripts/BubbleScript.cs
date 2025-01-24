@@ -43,12 +43,13 @@ public class BubbleScript : MonoBehaviour
         if(t<= 0.1f)
         {
             bubblePop();
+            
         }
     }
 
     void bubblePop()
     {
-       
+       FindAnyObjectByType<PlayerController>().playerAnimator.SetLayerWeight(1,0);
         GameObject popParticle = Instantiate(bubblePopParticle, transform.GetChild(1).position, Quaternion.identity);
         popParticle.transform.localScale = transform.localScale;
         Destroy(popParticle, 2);

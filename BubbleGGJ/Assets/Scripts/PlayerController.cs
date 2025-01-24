@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,21 +22,22 @@ public class PlayerController : MonoBehaviour
     public float jumpHeight = 1.0f;
     public float gravityValue = -9.81f;
 
-
     [Header("Bubble")]
     public GameObject bubblePrefab;
      GameObject currentBubble;
     public Transform bubbleSpawnParent;
     
     [Header("Animations")]
-    [SerializeField] Animator playerAnimator;
+    public Animator playerAnimator;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+void Start()
+{
+    if(SceneManager.GetActiveScene().buildIndex == 0)
     {
-        
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
-
+}
     // Update is called once per frame
     void Update()
     {
@@ -71,13 +73,18 @@ float horizontal = Input.GetAxisRaw("Horizontal");
         {
             playerVelocity.y = 0f;
             lastGroundedPosition = transform.position;
+            
         }
+
+        playerAnimator.SetBool("isGrounded", groundedPlayer);
+        
 
 
         // Changes the height position of the player..
         if (Input.GetButton("Jump") && groundedPlayer)
         {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            playerAnimator.SetTrigger("Jump");
         }
 
         playerVelocity.y += gravityValue * Time.deltaTime;
@@ -85,16 +92,27 @@ float horizontal = Input.GetAxisRaw("Horizontal");
 
         #endregion
 
+        #region  restartcurrentScene
+        if(Input.GetKeyDown(KeyCode.R))
+        {Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        }
+        #endregion
+
 
 #region bubble spawner
         if (Input.GetMouseButtonDown(1))
         {
             currentBubble =  Instantiate(bubblePrefab, bubbleSpawnParent.position, bubbleSpawnParent.rotation,bubbleSpawnParent);
+            playerAnimator.SetLayerWeight(1,1);
         }
         else if(Input.GetMouseButtonUp(1))
         {
             currentBubble.transform.parent = null;
             currentBubble = null;
+             playerAnimator.SetLayerWeight(1,0);
             
         }
         #endregion
@@ -103,5 +121,19 @@ float horizontal = Input.GetAxisRaw("Horizontal");
         {
             transform.position = lastGroundedPosition;
         }
+
+
     }
+
+    public void cursorHide()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
 }
+
+/*
+Adrift Among Infinite Stars by Scott Buckley - BackgroundMusic
+https://www.youtube.com/watch?v=svWYKzJfVJc ambient sound
+*/
